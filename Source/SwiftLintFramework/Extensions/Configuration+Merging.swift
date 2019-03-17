@@ -149,6 +149,7 @@ extension Configuration {
             } ?? configuration.warningThreshold,
             reporter: reporter, // Always use the parent reporter
             rules: mergingRules(with: configuration),
+            isRootConfiguration: isRootConfiguration || configuration.isRootConfiguration,
             cachePath: cachePath, // Always use the parent cache path
             rootPath: configuration.rootPath,
             indentation: configuration.indentation

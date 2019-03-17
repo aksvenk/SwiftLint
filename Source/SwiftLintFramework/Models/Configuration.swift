@@ -20,6 +20,7 @@ public struct Configuration: Hashable {
     public let warningThreshold: Int?                  // warning threshold
     public private(set) var rootPath: String?          // the root path to search for nested configurations
     public private(set) var configurationPath: String? // if successfully loaded from a path
+    public let isRootConfiguration: Bool               // `true` stops nesting at the current level
     public let cachePath: String?
 
     public func hash(into hasher: inout Hasher) {
@@ -58,6 +59,7 @@ public struct Configuration: Hashable {
                  warningThreshold: Int? = nil,
                  reporter: String = XcodeReporter.identifier,
                  ruleList: RuleList = masterRuleList,
+                 isRootConfiguration: Bool = false,
                  configuredRules: [Rule]? = nil,
                  swiftlintVersion: String? = nil,
                  cachePath: String? = nil,
@@ -88,6 +90,7 @@ public struct Configuration: Hashable {
                   warningThreshold: warningThreshold,
                   reporter: reporter,
                   rules: rules,
+                  isRootConfiguration: isRootConfiguration,
                   cachePath: cachePath,
                   indentation: indentation)
     }
@@ -98,6 +101,7 @@ public struct Configuration: Hashable {
                   warningThreshold: Int?,
                   reporter: String,
                   rules: [Rule],
+                  isRootConfiguration: Bool,
                   cachePath: String?,
                   rootPath: String? = nil,
                   indentation: IndentationStyle) {
@@ -108,6 +112,7 @@ public struct Configuration: Hashable {
         self.cachePath = cachePath
         self.rules = rules
         self.rootPath = rootPath
+        self.isRootConfiguration = isRootConfiguration
         self.indentation = indentation
 
         // set the config threshold to the threshold provided in the config file
@@ -121,6 +126,7 @@ public struct Configuration: Hashable {
         warningThreshold = configuration.warningThreshold
         reporter = configuration.reporter
         rules = configuration.rules
+        isRootConfiguration = configuration.isRootConfiguration
         cachePath = configuration.cachePath
         rootPath = configuration.rootPath
         indentation = configuration.indentation
